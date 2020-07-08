@@ -16,12 +16,18 @@ io.on('connection', (socket) => {
 
     console.log('made socket connection', socket.id);
     users.push(socket.id)
+    if(users.length > 1){
+        io.sockets.connected[users[0]].join("roomA");
+        io.sockets.connected[users[1]].join("roomA");
+    }
+    else{
+        io.sockets.connected[users[0]].join("roomA");
+    }
     // Handle chat event
     socket.on('chat', function(data){
-        i = users[0]
         // console.log(data);
         //io.sockets[i].emit('chat', data);
-        io.to(i).emit('chat',data)
+        io.to("roomA").emit('chat',data)
     });
 
     // Handle typing event
